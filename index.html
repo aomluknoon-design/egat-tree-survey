@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#14532d">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<title>สำรวจต้นไม้ค่าทดแทน กฟผ.</title>
+<style>
+:root{--green:#14532d;--green2:#166534;--bg:#f3f7f4;--line:#d7e2da;--muted:#647067;--white:#fff;--red:#b42318}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#17231a;font-family:system-ui,-apple-system,"Noto Sans Thai",sans-serif}
+header{background:linear-gradient(135deg,#14532d,#166534);color:white;padding:22px 16px 26px;border-radius:0 0 22px 22px}
+header h1{font-size:21px;margin:0 0 5px}header p{font-size:13px;margin:0;opacity:.9}
+main{max-width:720px;margin:0 auto;padding:14px 12px 38px}.card{background:white;border:1px solid var(--line);border-radius:16px;padding:15px;margin-bottom:12px;box-shadow:0 3px 12px #16351b0a}
+h2{font-size:16px;margin:0 0 12px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{margin-bottom:11px}label{display:block;font-size:13px;font-weight:650;margin-bottom:5px}
+input,select,textarea{width:100%;border:1px solid #cbd8ce;border-radius:10px;padding:12px;font-size:16px;background:#fff;color:#17231a;min-height:46px}
+button{border:0;border-radius:11px;padding:12px 14px;font-size:15px;font-weight:700;cursor:pointer}
+.primary{background:var(--green);color:#fff}.secondary{background:#e8f2ea;color:#14532d}.danger{background:#fff0ee;color:var(--red)}.full{width:100%}.buttons{display:flex;gap:8px;flex-wrap:wrap}.buttons button{flex:1}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{background:#f1f7f2;border-radius:12px;padding:10px;text-align:center}.stat strong{display:block;font-size:21px;color:var(--green)}.stat span{font-size:11px;color:var(--muted)}
+.small{font-size:12px;color:var(--muted);line-height:1.5}.notice{background:#fff8e6;border:1px solid #f1d99b;border-radius:12px;padding:11px;font-size:12px;line-height:1.55;margin-bottom:12px}
+.list{display:flex;flex-direction:column;gap:8px}.item{border:1px solid var(--line);border-radius:12px;padding:11px;display:flex;gap:10px;align-items:center}.item .info{flex:1;min-width:0}.item strong{display:block;font-size:14px}.item small{color:var(--muted);font-size:12px}.pill{font-size:11px;background:#e8f2ea;color:#14532d;border-radius:20px;padding:4px 8px;white-space:nowrap}
+a{color:#14532d}footer{text-align:center;font-size:11px;color:var(--muted);padding:8px}
+@media(max-width:420px){.grid{grid-template-columns:1fr 1fr}.card{padding:12px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>🌳 สำรวจต้นไม้ค่าทดแทน กฟผ.</h1>
+  <p>บันทึกในภาคสนาม • เก็บข้อมูลในเครื่อง • แชร์ข้อความเข้า LINE</p>
+</header>
+<main>
+  <div class="notice"><b>หมายเหตุเรื่องบัญชี กกพ.</b><br>ต้นแบบนี้ยังไม่ได้บรรจุรายชื่อต้นไม้ทางการครบถ้วน โปรดนำรายการจาก <a href="https://www.erc.or.th/th/structure-of-energy" target="_blank" rel="noopener">เว็บไซต์สำนักงาน กกพ.</a> (บัญชีราคากลางต้นไม้และพืชผล ปีที่ใช้กับงาน) มาแทนรายการตัวอย่างก่อนใช้งานจริง แอปนี้ไม่คำนวณหรือรับรองค่าทดแทน</div>
+
+  <section class="card">
+    <h2>1. ข้อมูลแปลง</h2>
+    <div class="field"><label for="plot">ชื่อ/เลขแปลง *</label><input id="plot" placeholder="เช่น A001 หรือชื่อแปลง" autocomplete="off"></div>
+    <div class="grid">
+      <div class="field"><label for="line">แนวสายส่ง/ช่วงงาน</label><input id="line" placeholder="เช่น 500 kV ..."></div>
+      <div class="field"><label for="surveyor">ผู้สำรวจ</label><input id="surveyor" placeholder="ชื่อผู้สำรวจ"></div>
+    </div>
+    <div class="field"><label for="date">วันที่สำรวจ</label><input id="date" type="date"></div>
+  </section>
+
+  <section class="card">
+    <h2>2. เพิ่มรายการต้นไม้</h2>
+    <div class="field"><label for="speciesSearch">ค้นหาชนิดต้นไม้</label><input id="speciesSearch" placeholder="พิมพ์เพื่อค้นหาในรายการ..." autocomplete="off"></div>
+    <div class="field"><label for="species">ชนิดต้นไม้ *</label><select id="species"></select></div>
+    <div class="grid">
+      <div class="field"><label for="qty">จำนวนต้น</label><input id="qty" type="number" min="1" value="1" inputmode="numeric"></div>
+      <div class="field"><label for="size">ขนาด/รายละเอียด</label><input id="size" placeholder="ตามแบบฟอร์มงาน"></div>
+    </div>
+    <div class="field"><label for="note">หมายเหตุ</label><input id="note" placeholder="รายละเอียดเพิ่มเติม (ถ้ามี)"></div>
+    <div class="buttons"><button class="primary" id="add">＋ บันทึกรายการ</button><button class="secondary" id="shareLatest">แชร์รายการล่าสุด</button></div>
+    <p class="small">รายการจะเก็บไว้ในโทรศัพท์เครื่องนี้โดยอัตโนมัติ ไม่ต้องมีอินเทอร์เน็ตสำหรับการบันทึกข้อมูล</p>
+  </section>
+
+  <section class="card">
+    <h2>3. สรุปแปลงนี้</h2>
+    <div class="stats">
+      <div class="stat"><strong id="countRecords">0</strong><span>รายการ</span></div>
+      <div class="stat"><strong id="countTrees">0</strong><span>จำนวนต้นรวม</span></div>
+      <div class="stat"><strong id="countSpecies">0</strong><span>ชนิดต้นไม้</span></div>
+    </div>
+    <div style="height:12px"></div>
+    <div class="buttons">
+      <button class="primary" id="shareAll">แชร์สรุปเข้า LINE</button>
+      <button class="secondary" id="exportCsv">ส่งออก CSV</button>
+    </div>
+    <div style="height:8px"></div>
+    <button class="secondary full" id="exportTxt">คัดลอก/แชร์ข้อความรายการทั้งหมด</button>
+    <p class="small">ปุ่มแชร์จะเปิดเมนูแชร์ของ Android ให้เลือก LINE หากติดตั้งไว้ จากนั้นผู้ใช้กดยืนยันส่งเอง</p>
+  </section>
+
+  <section class="card">
+    <h2>4. รายการที่บันทึกแล้ว</h2>
+    <div id="records" class="list"></div>
+    <div style="height:10px"></div>
+    <div class="buttons"><button class="secondary" id="clearPlot">ล้างเฉพาะแปลงนี้</button></div>
+    <p class="small">ก่อนลบ ให้ส่งออก CSV หรือแชร์สรุปเก็บไว้ก่อน</p>
+  </section>
+
+  <section class="card">
+    <h2>5. จัดการรายการต้นไม้</h2>
+    <p class="small">นำเข้ารายชื่อต้นไม้จากไฟล์ CSV ที่จัดเตรียมจากบัญชี กกพ. ฉบับที่หน่วยงานกำหนด โดยไฟล์ควรมีหัวคอลัมน์ <b>ชื่อชนิด</b> และหนึ่งชื่อในแต่ละบรรทัด</p>
+    <input type="file" id="speciesFile" accept=".csv,text/csv">
+    <div class="buttons" style="margin-top:8px"><button class="secondary" id="resetSpecies">คืนค่ารายการตัวอย่าง</button></div>
+  </section>
+  <footer>ต้นแบบเพื่อช่วยบันทึกภาคสนามเท่านั้น ไม่เชื่อมต่อหรือแก้ไขระบบเว็บไซต์ กฟผ.</footer>
+</main>
+<script>
+const sampleSpecies = [
+"มะม่วง","มะพร้าว","ยางพารา","ยูคาลิปตัส","สัก","ประดู่","ยางนา","ตะเคียนทอง","ไผ่","กล้วย","มะขาม","มะขามเทศ","ขนุน","มะละกอ","มะนาว","ส้มโอ","ลำไย","ลิ้นจี่","ทุเรียน","เงาะ","มังคุด","ปาล์มน้ำมัน","หมาก","ไผ่รวก","กระถิน","สะเดา","ก้ามปู","จามจุรี","ขี้เหล็ก","ฝรั่ง","ชมพู่","มะไฟ","มะเฟือง","มะยม","มะกรูด","ส้ม","กาแฟ","โกโก้","พริกไทย","อื่น ๆ / ไม่พบในรายการ"
+];
+const $=id=>document.getElementById(id);
+const today=new Date(); $("date").value = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+let speciesList=JSON.parse(localStorage.getItem("ercSpeciesList")||"null")||sampleSpecies;
+let records=JSON.parse(localStorage.getItem("treeRecords")||"[]");
+let latestId=null;
+function save(){localStorage.setItem("treeRecords",JSON.stringify(records));localStorage.setItem("ercSpeciesList",JSON.stringify(speciesList));render();}
+function filteredSpecies(){
+ const q=$("speciesSearch").value.trim().toLowerCase();
+ return speciesList.filter(s=>s.toLowerCase().includes(q));
+}
+function renderSpecies(){
+ const old=$("species").value; const arr=filteredSpecies();
+ $("species").innerHTML=arr.map(s=>`<option>${esc(s)}</option>`).join("");
+ if(arr.includes(old)) $("species").value=old;
+}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function current(){const p=$("plot").value.trim();return p;}
+function thisPlot(){return records.filter(r=>r.plot===current());}
+function render(){
+ const rs=thisPlot(); $("countRecords").textContent=rs.length;
+ $("countTrees").textContent=rs.reduce((a,r)=>a+Number(r.qty||0),0);
+ $("countSpecies").textContent=new Set(rs.map(r=>r.species)).size;
+ $("records").innerHTML=rs.length?rs.map(r=>`<div class="item"><div class="info"><strong>${r.no}. ${esc(r.species)} <span class="pill">×${r.qty}</span></strong><small>${esc(r.size||"ไม่ระบุขนาด")} · ${esc(r.note||"ไม่มีหมายเหตุ")}</small></div><button class="danger" data-del="${r.id}" aria-label="ลบรายการ">ลบ</button></div>`).join(""):'<p class="small">ยังไม่มีรายการสำหรับแปลงนี้ กรอกชื่อแปลงแล้วเพิ่มรายการแรกได้เลย</p>';
+}
+function addRecord(){
+ const plot=current(), species=$("species").value, qty=Number($("qty").value||1);
+ if(!plot){alert("กรุณากรอกชื่อ/เลขแปลงก่อน");$("plot").focus();return;}
+ if(!species){alert("กรุณาเลือกชนิดต้นไม้");return;}
+ if(!Number.isInteger(qty)||qty<1){alert("จำนวนต้นต้องเป็นจำนวนเต็มตั้งแต่ 1 ขึ้นไป");return;}
+ const rs=thisPlot();
+ const r={id:Date.now().toString()+Math.random().toString(16).slice(2,6),plot,line:$("line").value.trim(),surveyor:$("surveyor").value.trim(),date:$("date").value,no:rs.length+1,species,qty,size:$("size").value.trim(),note:$("note").value.trim()};
+ records.push(r);latestId=r.id;save();$("size").value="";$("note").value="";$("qty").value="1";
+}
+function message(rs){
+ if(!rs.length)return "ยังไม่มีรายการต้นไม้ในแปลงนี้";
+ const first=rs[0];
+ const lines=[`งานสำรวจต้นไม้เพื่อค่าทดแทน กฟผ.`,`แปลง: ${first.plot}`,`แนวสายส่ง/ช่วงงาน: ${first.line||"-"}`,`วันที่: ${first.date||"-"}`,`ผู้สำรวจ: ${first.surveyor||"-"}`,`จำนวนรายการ: ${rs.length}`,`จำนวนต้นรวม: ${rs.reduce((a,r)=>a+Number(r.qty||0),0)}`,``,`รายการต้นไม้:`];
+ rs.forEach(r=>lines.push(`${r.no}. ${r.species} | จำนวน ${r.qty} | ขนาด: ${r.size||"-"}${r.note?" | หมายเหตุ: "+r.note:""}`));
+ lines.push("","หมายเหตุ: เป็นข้อมูลสำรวจภาคสนาม โปรดตรวจสอบกับสมุดและภาพถ่ายก่อนกรอกระบบ กฟผ.");
+ return lines.join("\n");
+}
+async function shareText(txt){
+ try{
+  if(navigator.share){await navigator.share({title:"ข้อมูลสำรวจต้นไม้ กฟผ.",text:txt});}
+  else if(navigator.clipboard){await navigator.clipboard.writeText(txt);alert("คัดลอกข้อความแล้ว ให้นำไปวางใน LINE");}
+  else {prompt("คัดลอกข้อความนี้ไปส่ง LINE",txt);}
+ }catch(e){if(e.name!=="AbortError")alert("แชร์ไม่สำเร็จ ลองใช้ปุ่มส่งออกข้อความอีกครั้ง");}
+}
+$("add").onclick=addRecord;
+$("plot").addEventListener("input",render);
+$("speciesSearch").addEventListener("input",renderSpecies);
+$("shareAll").onclick=()=>shareText(message(thisPlot()));
+$("exportTxt").onclick=()=>shareText(message(thisPlot()));
+$("shareLatest").onclick=()=>{const r=records.find(x=>x.id===latestId);shareText(r?message([r]):"ยังไม่มีรายการล่าสุดในรอบนี้");};
+$("records").addEventListener("click",e=>{const id=e.target.dataset.del;if(id&&confirm("ลบรายการนี้หรือไม่?")){records=records.filter(r=>r.id!==id);save();}});
+$("clearPlot").onclick=()=>{if(!current()){alert("กรอกชื่อแปลงก่อน");return;}if(confirm(`ลบข้อมูลทั้งหมดของแปลง ${current()} จากเครื่องนี้หรือไม่?`)){records=records.filter(r=>r.plot!==current());save();}};
+$("exportCsv").onclick=()=>{
+ const rs=thisPlot();if(!rs.length){alert("ไม่มีข้อมูลให้ส่งออก");return;}
+ const headers=["ชื่อแปลง","แนวสายส่ง/ช่วงงาน","วันที่","ผู้สำรวจ","ลำดับ","ชนิดต้นไม้","จำนวน","ขนาด/รายละเอียด","หมายเหตุ"];
+ const rows=rs.map(r=>[r.plot,r.line,r.date,r.surveyor,r.no,r.species,r.qty,r.size,r.note]);
+ const csv="\ufeff"+[headers,...rows].map(row=>row.map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(",")).join("\r\n");
+ const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));a.download=`tree_survey_${current().replace(/[^\wก-๙-]/g,"_")}.csv`;a.click();URL.revokeObjectURL(a.href);
+};
+$("speciesFile").addEventListener("change",async e=>{
+ const f=e.target.files[0];if(!f)return;
+ try{
+  const txt=(await f.text()).replace(/^\uFEFF/,"");
+  let names=txt.split(/\r?\n/).map((line,i)=>line.split(",")[0].trim().replace(/^"|"$/g,"")).filter(Boolean);
+  if(names[0] && /ชื่อชนิด|species|ชนิดต้นไม้/i.test(names[0]))names=names.slice(1);
+  names=[...new Set(names)];
+  if(!names.length)throw new Error("ไม่พบรายชื่อ");
+  if(confirm(`นำเข้ารายชื่อ ${names.length} รายการแทนรายการปัจจุบันหรือไม่?`)){speciesList=names;localStorage.setItem("ercSpeciesList",JSON.stringify(speciesList));renderSpecies();alert("นำเข้ารายการแล้ว");}
+ }catch(err){alert("อ่านไฟล์ไม่ได้ โปรดใช้ CSV ที่มีหนึ่งชื่อชนิดต่อบรรทัด");}
+ e.target.value="";
+});
+$("resetSpecies").onclick=()=>{if(confirm("คืนค่ารายการตัวอย่างหรือไม่? รายการที่บันทึกไว้ไม่ถูกลบ")){speciesList=sampleSpecies;localStorage.setItem("ercSpeciesList",JSON.stringify(speciesList));renderSpecies();}};
+renderSpecies();render();
+// Register offline cache when hosted on HTTPS (for example GitHub Pages).
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js').catch(err => console.warn('Service worker registration failed:', err));
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{
+  "id": "./",
+  "name": "สำรวจต้นไม้ค่าทดแทน กฟผ.",
+  "short_name": "สำรวจต้นไม้",
+  "lang": "th",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f7f4",
+  "theme_color": "#14532d",
+  "description": "ต้นแบบบันทึกต้นไม้ภาคสนาม เก็บข้อมูลในเครื่อง และแชร์ข้อความเข้า LINE",
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
